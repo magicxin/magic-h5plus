@@ -1,0 +1,13 @@
+@mixin font_color($color){/*通过该函数设置字体颜色，后期方便统一管理；*/
+color:$color;
+[data-theme="theme1"] & {
+    color:$font-color-theme1;
+}
+}
+
+@mixin bg_color($color){/*通过该函数设置主题颜色，后期方便统一管理；*/
+  background-color:$color;
+  [data-theme="theme1"] & {
+      background-color:$background-color-theme1;
+    }
+}

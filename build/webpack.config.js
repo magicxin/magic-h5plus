@@ -1,5 +1,7 @@
 const path = require('path')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const config = require('../config')
 
 module.exports = {
   entry: {
@@ -7,7 +9,7 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname,'../dist')
+    path: path.resolve(__dirname,'../native')
   },
   module: {
     rules: [
@@ -21,11 +23,23 @@ module.exports = {
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
-        use: ['file-loader']
+        use: {
+          loader: 'file-loader',
+          options: {
+          limit: 10000,
+//          name: utils.assetsPath('media/[name].[hash:7].[ext]')
+          }
+        }
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
-        use: ['file-loader']
+        use: {
+          loader: 'file-loader',
+          options: {
+          limit: 10000,
+//          name: utils.assetsPath('media/[name].[hash:7].[ext]')
+          }
+        }
       },
       {
         test: /\.js$/,
@@ -36,7 +50,12 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: ['style-loader','css-loader','sass-loader']
+        use: ['style-loader','css-loader','sass-loader',{
+          loader: 'sass-resources-loader',
+          options: {
+             resources: path.resolve(__dirname,'../src/css/common.scss'),
+          }
+        }]
       },
     ]
   },
@@ -45,10 +64,17 @@ module.exports = {
       'vue$':'vue/dist/vue.js',
       '@':path.resolve(__dirname,'../src'),
       'pages':path.resolve(__dirname,'../src/pages'),
+      'css':path.resolve(__dirname,'../src/css'),
+      'assets':path.resolve(__dirname,'../src/assets'),
+      'components':path.resolve(__dirname,'../src/components'),
     },
     extensions: ['*', '.js', '.vue', '.json']
   },
   plugins: [
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    new HtmlWebpackPlugin({
+      filename: config.build.index,
+      template: 'index.html'
+    })
   ]
 }
