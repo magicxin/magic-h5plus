@@ -2,6 +2,7 @@ const path = require('path')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const config = require('../config')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
   entry: {
@@ -19,7 +20,10 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader','css-loader']
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: "css-loader"
+        })
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
@@ -75,6 +79,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: config.build.index,
       template: 'index.html'
-    })
+    }),
+    
+    new ExtractTextPlugin("styles.css")
   ]
 }

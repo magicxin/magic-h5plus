@@ -13,7 +13,7 @@ const prodConfig = merge(baseConfig, {
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
       }
-    ])
+    ]),
   ]
 })
 
