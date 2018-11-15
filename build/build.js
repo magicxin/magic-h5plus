@@ -1,13 +1,13 @@
 'use strict'
+process.env.NODE_ENV = 'production'
 const webpack = require('webpack')
 const webpackConfig = require('./webpack.prod')
 const rm = require('rimraf')
 const path = require('path')
 const config = require('../config')
 const chalk = require('chalk')
-process.env.NODE_ENV = 'production'
 
-rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
+rm(path.join(config.assetsRoot, config.assetsSubDirectory), err => {
   if (err) throw err
   webpack(webpackConfig, (err, stats) => {
     if (err) {

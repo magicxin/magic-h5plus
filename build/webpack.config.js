@@ -2,7 +2,8 @@ const path = require('path')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const config = require('../config')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+//const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   entry: {
@@ -20,11 +21,15 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: "style-loader",
-          use: "css-loader"
-        })
+        use: [ MiniCssExtractPlugin.loader, "css-loader" ]
       },
+//    {
+//      test: /\.css$/,
+//      use: ExtractTextPlugin.extract({
+//        fallback: "style-loader",
+//        use: "css-loader"
+//      })
+//    },
       {
         test: /\.(png|svg|jpg|gif)$/,
         use: {
@@ -77,10 +82,15 @@ module.exports = {
   plugins: [
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
-      filename: config.build.index,
+      filename: config.index,
       template: 'index.html'
     }),
-    
-    new ExtractTextPlugin("styles.css")
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: "[name].css",
+      chunkFilename: "[id].css"
+    })
+//  new ExtractTextPlugin("styles.css")
   ]
 }
