@@ -2,10 +2,12 @@ const path = require('path')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const config = require('../config')
+const {assetsPath} = require('./utils')
 //const ExtractTextPlugin = require('extract-text-webpack-plugin')
 // 使用mini-css-extract-plugin 代替 extract-text-webpack-plugin 并且 extract-text-webpack-plugin 在webpack4 需要使用beta版
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
+let isDev = process.env.NODE_ENV==='development'?true:false
 module.exports = {
   entry: {
     main:'./src/main.js'
@@ -20,10 +22,28 @@ module.exports = {
         test: /\.vue$/,
         loader: 'vue-loader'
       },
+//    {
+//      test: /\.(sa|sc|c)ss$/,
+//      use: [
+//        process.env.NODE_ENV==='development' ? 'style-loader' : MiniCssExtractPlugin.loader,
+//        'css-loader',
+//        'postcss-loader',
+//        'sass-loader',
+//      ],
+//    },
       {
-        test: /\.css$/,
-        exclude: /node_modules/,
-        use: [ MiniCssExtractPlugin.loader,'css-loader']
+        test: /\.(sa|c)ss$/,
+        use: [isDev ? 'style-loader' : MiniCssExtractPlugin.loader,'css-loader','postcss-loader']
+      },{
+        test: /\.scss$/,
+        use: [isDev ? 'style-loader' : MiniCssExtractPlugin.loader,'css-loader','sass-loader',
+        'postcss-loader',
+        {
+          loader: 'sass-resources-loader',
+          options: {
+             resources: path.resolve(__dirname,'../src/css/common.scss'),
+          }
+        }]
       },
 //    {
 //      test: /\.css$/,
@@ -58,16 +78,7 @@ module.exports = {
         use: {
         	loader: 'babel-loader'
         }
-      },
-      {
-        test: /\.scss$/,
-        use: ['style-loader','css-loader','sass-loader',{
-          loader: 'sass-resources-loader',
-          options: {
-             resources: path.resolve(__dirname,'../src/css/common.scss'),
-          }
-        }]
-      },
+      }
     ]
   },
   resolve: {
@@ -90,8 +101,8 @@ module.exports = {
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
-      filename: "[name].css",
-      chunkFilename: "[id].css"
+      filename: assetsPath("css/[name].css")
+//    chunkFilename: "[id].css"
     })
 //  new ExtractTextPlugin("styles.css")
   ]
