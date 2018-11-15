@@ -3,6 +3,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const config = require('../config')
 //const ExtractTextPlugin = require('extract-text-webpack-plugin')
+// 使用mini-css-extract-plugin 代替 extract-text-webpack-plugin 并且 extract-text-webpack-plugin 在webpack4 需要使用beta版
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
@@ -21,7 +22,8 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [ MiniCssExtractPlugin.loader, "css-loader" ]
+        exclude: /node_modules/,
+        use: [ MiniCssExtractPlugin.loader,'css-loader']
       },
 //    {
 //      test: /\.css$/,

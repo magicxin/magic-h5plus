@@ -13,9 +13,9 @@ const devConfig = merge(baseConfig, {
   mode: 'development',
   devServer: {
     clientLogLevel: 'warning', // 控制浏览器展示级别
-    host: HOST || config.dev.host,
-    port: PORT || config.dev.port,
-    open: config.dev.autoOpenBrowser,
+    host: HOST || config.host,
+    port: PORT || config.port,
+    open: config.autoOpenBrowser,
     hot: true,
     quiet: true,
 //  before(app) {
@@ -23,7 +23,7 @@ const devConfig = merge(baseConfig, {
 //  },
     proxy: {
       '/headline': {
-        target: config.dev.origin, //目标接口域名
+        target: config.origin, //目标接口域名
         changeOrigin: true, //是否跨域
       }
     }
@@ -39,7 +39,7 @@ const devConfig = merge(baseConfig, {
 })
 
 module.exports = new Promise((resolve, reject) => {
-  portfinder.basePort = process.env.PORT || config.dev.port
+  portfinder.basePort = process.env.PORT || config.port
   portfinder.getPort((err, port) => {
     if (err) {
       reject(err)
@@ -54,7 +54,7 @@ module.exports = new Promise((resolve, reject) => {
         compilationSuccessInfo: {
           messages: [`Your application is running here: http://${devConfig.devServer.host}:${port}`],
         },
-        onErrors: config.dev.notifyOnErrors
+        onErrors: config.notifyOnErrors
         ? utils.createNotifierCallback()
         : undefined
       }))
