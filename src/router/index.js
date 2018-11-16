@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import main from '../pages/main'
+//const home = () => import(/* webpackChunkName: "home" */ './pages/main.vue')
 Vue.use(Router)
 
 export default new Router({
@@ -11,7 +11,7 @@ export default new Router({
     {
       path: '/main',
       name: 'main',
-      component: main,
+      component:  r => require.ensure([], () => r(require('@/pages/main')), 'home'),
       meta: {
         exit: true,
         keepAlive: true

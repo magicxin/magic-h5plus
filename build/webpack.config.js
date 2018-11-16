@@ -2,9 +2,7 @@ const path = require('path')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const config = require('../config')
-const {assetsPath} = require('./utils')
 //const ExtractTextPlugin = require('extract-text-webpack-plugin')
-// 使用mini-css-extract-plugin 代替 extract-text-webpack-plugin 并且 extract-text-webpack-plugin 在webpack4 需要使用beta版
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 let isDev = process.env.NODE_ENV==='development'?true:false
@@ -13,8 +11,8 @@ module.exports = {
     main:'./src/main.js'
   },
   output: {
+    path: config.assetsRoot,
     filename: '[name].js',
-    path: path.resolve(__dirname,'../native')
   },
   module: {
     rules: [
@@ -57,8 +55,8 @@ module.exports = {
         use: {
           loader: 'file-loader',
           options: {
-          limit: 10000,
-//          name: utils.assetsPath('media/[name].[hash:7].[ext]')
+            limit: 10000,
+            name: 'media/[name].[hash:7].[ext]'
           }
         }
       },
@@ -68,7 +66,7 @@ module.exports = {
           loader: 'file-loader',
           options: {
           limit: 10000,
-//          name: utils.assetsPath('media/[name].[hash:7].[ext]')
+            name: 'media/[name].[hash:7].[ext]'
           }
         }
       },
@@ -97,12 +95,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: config.index,
       template: 'index.html'
-    }),
-    new MiniCssExtractPlugin({
-      // Options similar to the same options in webpackOptions.output
-      // both options are optional
-      filename: assetsPath("css/[name].css")
-//    chunkFilename: "[id].css"
     })
 //  new ExtractTextPlugin("styles.css")
   ]

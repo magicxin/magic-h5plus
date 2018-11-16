@@ -14,10 +14,11 @@ Vue.mixin({
   },
   methods: {
     addPath(url) {
-      return config[config.env].origin + url
+      return config.origin + url
     },
     addHost(url) {
-      return config[config.env].hostname + ':' + config[config.env].port + url
+      console.log(config)
+      return config.hostname + url
     }
   }
 })
