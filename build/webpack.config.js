@@ -56,7 +56,7 @@ module.exports = {
           loader: 'file-loader',
           options: {
             limit: 10000,
-            name: 'media/[name].[hash:7].[ext]'
+            name: 'img/[name].[hash:7].[ext]'
           }
         }
       },
@@ -66,7 +66,7 @@ module.exports = {
           loader: 'file-loader',
           options: {
           limit: 10000,
-            name: 'media/[name].[hash:7].[ext]'
+            name: 'fonts/[name].[hash:7].[ext]'
           }
         }
       },
